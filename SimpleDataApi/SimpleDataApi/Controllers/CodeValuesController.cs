@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimpleDataApi.Requests;
+using SimpleDataApi.Responses;
 using SimpleDataApi.Storage;
 
 namespace SimpleDataApi.Controllers
@@ -15,6 +15,17 @@ namespace SimpleDataApi.Controllers
         public CodeValuesController(AppDbContext context)
         {
             this.context = context;
+        }
+
+        [HttpGet]
+        public async Task<List<CodeValueResponse>> GetAsync()
+        {
+            var result = await context.CodeValues
+                .AsNoTracking()
+                .Select(c => new CodeValueResponse(c.Id, c.Code, c.Value))
+                .ToListAsync();
+
+            return result;
         }
 
         [HttpPost]
