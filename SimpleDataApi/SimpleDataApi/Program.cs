@@ -1,4 +1,5 @@
 
+using SimpleDataApi.Services;
 using SimpleDataApi.Storage;
 
 namespace SimpleDataApi
@@ -12,6 +13,8 @@ namespace SimpleDataApi
             // Add services to the container.
             string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                        ?? throw new InvalidOperationException("Connection string not found");
+
+            builder.Services.AddScoped<ICodeValuesService, CodeValuesService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
