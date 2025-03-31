@@ -15,14 +15,16 @@ namespace SimpleDataApi.Services
             this.context = context;
         }
 
-        public async Task<(IReadOnlyCollection<CodeValueResponse>, int)> GetAsync(PagedRequest request)
+        public async Task<(IReadOnlyCollection<CodeValueResponse>, int)> GetAsync(CodeValueFilter filter)
         {
             var query = context.CodeValues
-                .AsNoTracking();
+                .AsNoTracking()
+                .AddFilterIfSet(filter.Code.HasValue, c => c.Code == filter.Code)
+                .AddFilterIfSet(!string.IsNullOrEmpty(filter.ValuePrefix), c => c.Value.StartsWith(filter.ValuePrefix!));
 
             var count = await query.CountAsync();
             var result = await query
-                .SelectPage(request.PageSize, request.PageNumber)
+                .SelectPage(filter.PageSize, filter.PageNumber)
                 .Select(c => new CodeValueResponse(c.Id, c.Code, c.Value))
                 .ToListAsync();
 
