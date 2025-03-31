@@ -1,8 +1,4 @@
-export type CodeValue = {
-    id: number;
-    code: number;
-    value: string;
-}
+import { CodeValue } from "./codeValueBrowser";
 
 export type TableProps = {
     data: CodeValue[];

@@ -35,9 +35,11 @@ namespace SimpleDataApi
 
             app.UseHttpsRedirection();
 
+            app.UseCors(builder =>
+                builder.AllowAnyOrigin()
+            );
+
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();

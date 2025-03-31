@@ -1,14 +1,9 @@
 import { useState } from 'react';
+import { CodeValue } from './codeValueBrowser';
 
 type FiltersPanelProps = {
     onFilter: (filters: Omit<CodeValue, 'id'>) => void;
 };
-
-export type CodeValue = {
-    id: number;
-    code: number;
-    value: string;
-}
 
 export default function FiltersPanel(props: FiltersPanelProps) {
     const [code, setCode] = useState<string>('');
@@ -22,6 +17,7 @@ export default function FiltersPanel(props: FiltersPanelProps) {
     };
 
     return (
+        <>
         <div>
             <div>
                 <label>Code:
@@ -43,5 +39,6 @@ export default function FiltersPanel(props: FiltersPanelProps) {
             </div>
             <button onClick={handleFilter}>Apply Filters</button>
         </div>
+        </>
     );
 }
