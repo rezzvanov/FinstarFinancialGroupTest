@@ -19,7 +19,10 @@ namespace SimpleDataApi.Storage
                 entity.HasKey(e => e.Id)
                 .IsClustered();
 
-                entity.HasIndex(e => new { e.Code, e.Value })
+                entity.HasIndex(e => e.Code)
+                .IsClustered(false);
+
+                entity.HasIndex(e => e.Value)
                 .IsClustered(false);
             });
         }
