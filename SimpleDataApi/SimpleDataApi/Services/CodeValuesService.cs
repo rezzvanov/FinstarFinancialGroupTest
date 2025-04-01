@@ -34,7 +34,7 @@ namespace SimpleDataApi.Services
         public async Task<int> AddRangeAsync(IEnumerable<CodeValueRequest> records)
         {
             int addedRows = 0;
-            IEnumerable<CodeValue> codeValues = MapRequestToEntities(records);
+            var codeValues = MapDtoToOrderedEntities(records).ToList();
 
             using (var transaction = await context.Database.BeginTransactionAsync())
             {
@@ -48,11 +48,11 @@ namespace SimpleDataApi.Services
             return addedRows;
         }
 
-        private static IEnumerable<CodeValue> MapRequestToEntities(IEnumerable<CodeValueRequest> records)
+        private static IEnumerable<CodeValue> MapDtoToOrderedEntities(IEnumerable<CodeValueRequest> records)
         {
             return records
-                .OrderBy(c => c.Code)
-                .Select(c => new CodeValue(c.Code, c.Value));
+                .Select(c => new CodeValue(c.Code, c.Value))
+                .OrderBy(c => c.Code);
         }
     }
 }
