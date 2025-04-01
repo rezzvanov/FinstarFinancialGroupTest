@@ -47,6 +47,7 @@ GROUP BY c.ClientName;
 -- Query 2
 SELECT c.ClientName, COUNT(cc.Id) AS ContactCount
 FROM Clients c
-JOIN ClientContacts cc ON c.Id = cc.ClientId
+JOIN ClientContacts cc 
+ON c.Id = cc.ClientId
 GROUP BY c.ClientName
 HAVING COUNT(cc.Id) > 2;
